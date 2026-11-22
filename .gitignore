@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# 构建产物
+build/
+dist/
+release/
+*.exe
+
+# 第三方二进制（按 README 自行下载 Interception.zip 解压到这里）
+driver/
+*.zip
+
+# 测试与临时文件
+ui.png
+smoke.txt
+drv*.txt
+*_test.txt
+kill.txt
+window_dump.txt
+restart_dev.txt
+sc_state.txt
+backup_*.reg
+
+# 编辑器
+.vscode/
+.idea/
