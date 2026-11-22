@@ -35,7 +35,7 @@ Wheel2Left 换了个位置：它挂在鼠标类过滤驱动（`mouse.sys`）上�
 - **三档生效范围**：全部窗口 / 仅全屏 / 指定程序（默认）
 - **自动锁定**：第一次在全屏程序里滚一下就自动记住它，不用手动配置
 - **热键随时开关**：`Ctrl + Alt + Shift + R`
-- **关闭即恢复**：退出程序滚轮立刻恢复正常，驱动本身不常驻、不常开
+- **关闭即恢复**：退出程序滚轮立刻恢复正常。过滤驱动虽然留在设备栈里，但不做任何转换，等于透明
 - **单文件、无安装、无联网**
 
 ## 安装
@@ -44,7 +44,7 @@ Wheel2Left 换了个位置：它挂在鼠标类过滤驱动（`mouse.sys`）上�
 
 ### 1. 安装过滤驱动（只需一次）
 
-1. 从 [Release](releases) 下载 `Wheel2Left-v1.0.0-win64.zip` 并解压
+1. 从 [Releases](/releases) 下载 `Wheel2Left-v1.0.0-win64.zip` 并解压
 2. 右键 `install_driver.bat` → **以管理员身份运行**
 3. **重启电脑**（让驱动真正挂到鼠标设备栈上，这一步不能省）
 
@@ -109,12 +109,12 @@ Wheel2Left 换了个位置：它挂在鼠标类过滤驱动（`mouse.sys`）上�
 - **带反作弊的在线游戏**（EAC / BattlEye / Vanguard 等）。这类反作弊会检测非白名单的过滤驱动，轻则拒绝启动，重则封号。**不要用**。
 - **滚轮本身有功能的场景**。很多 galgame 用滚轮回看历史对话（backlog）、快进、缩放 CG。转换之后这些功能就用不了了——这时候用「指定程序」+ 热键关掉，或者干脆别开。
 - **macOS / Linux**。本项目只做 Windows。
-- 极少数把输入绑定到具体物理设备（按 VID/PID 校验）的程序，理论上仍可能失败。欢迎用 [issue](issues) 反馈具体游戏。
+- 极少数把输入绑定到具体物理设备（按 VID/PID 校验）的程序，理论上仍可能失败。欢迎用 [issue](/issues) 反馈具体游戏。
 
 ## 卸载
 
 1. 关闭 `Wheel2Left.exe` —— 滚轮立刻恢复正常，不关驱动也能用回滚轮
-2. 如果不再需要这个工具，右键 `install_driver.bat` 同目录的 `uninstall_driver.bat` → 以管理员身份运行，然后重启
+2. 如果不再需要这个工具，右键同目录下的 `uninstall_driver.bat` → 以管理员身份运行，然后重启
 
 手动卸载（如果脚本不管用）：
 
@@ -152,13 +152,16 @@ src/
 ├── icpt.py      Interception 的 ctypes 封装
 ├── config.py    配置持久化
 └── w32.py       Win32 API 绑定与常量
+install_driver.bat    驱动安装（辅助修正上游 installer 的已知问题）
+uninstall_driver.bat  驱动卸载
+build.bat             一键打包
 tools/
-├── install_driver.bat    驱动安装（辅助修正上游 installer 的已知问题）
-├── ui_probe.py           不开引擎、只渲染界面并截图，用来检查排版
-└── smoke.py              端到端冒烟测试（需管理员）
+├── ui_probe.py         不开引擎、只渲染界面并截图，用来检查排版
+├── smoke.py            端到端冒烟测试（需管理员）
+└── make_release.py     生成发布压缩包
 ```
 
-`tools/install_driver.bat` 里做了两件上游安装器没做好的事：补全驱动服务的 `ImagePath`（否则 SCM 认不出服务），以及提示重启以重新枚举鼠标设备（否则过滤驱动不会插进设备栈）。
+`install_driver.bat` 里做了两件上游安装器没做好的事：补全驱动服务的 `ImagePath`（否则 SCM 认不出服务），以及提示重启以重新枚举鼠标设备（否则过滤驱动不会插进设备栈）。
 
 ## 常见问题
 
